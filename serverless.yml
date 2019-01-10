@@ -1,0 +1,67 @@
+service: todos-api
+
+provider:
+  name: aws
+  region: us-east-1
+  runtime: nodejs8.10
+  profile: serverless-default
+  environment: ${file(env.yml):${opt:stage, self:provider.stage}}
+
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:DescribeTable
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:DeleteItem
+        - dynamodb:UpdateItem
+        - dynamodb:BatchGetItem
+        - dynamodb:BatchWriteItem
+      Resource: arn:aws:dynamodb:*:*:table/${self:provider.environment.TODOS_TABLE}
+#    - Effect: Allow
+#      Action:
+#        - s3:*
+#      Resource: arn:aws:s3:*:*:${self:provider.environment.BUCKET}
+
+custom:
+  dirconfig:
+    quiet: true
+  webpack:
+    webpackConfig: 'webpack.config.js'   # Name of webpack configuration file
+    includeModules: true
+#        forceExclude:
+#          - aws-sdk
+    packager: 'npm'   # Packager that will be used to package your external modules
+  serverless-offline-sns:
+    port: 4002 # a free port for the sns server to run on
+    debug: false
+  serverless-offline-sqs:
+    apiVersion: '2012-11-05'
+    endpoint: http://0.0.0.0:9324
+    region: us-east-1
+    accessKeyId: root
+    secretAccessKey: root
+  dynamodb:
+    start:
+      port: 8000
+#      inMemory: true
+      migrate: true
+      seed: true
+      convertEmptyValues: true
+      dbPath: ${env:PWD}
+  s3:
+    host: 0.0.0.0
+    port: 8001
+    directory: /tmp
+
+
+plugins:
+  - serverless-webpack
+  - serverless-dir-config-plugin
+  - serverless-offline-sns
+  - serverless-offline-sqs
+  - serverless-dynamodb-local
+  - serverless-s3-local
+  - serverless-offline

@@ -19,10 +19,8 @@ export async function getTodo() {
 }
 
 export async function updateTodo(event) {
-  // let todo = new Todo({ id: event.body.id, task: event.body.task, status: event.body.status });
   try {
-    await  Todo.update({ id: event.body.id}, {task: event.body.task, status: event.body.status });
-      // todo.save();
+    await Todo.update({ id: event.body.id }, { task: event.body.task, status: event.body.status });
     return { message: 'Update todo successfully' };
   } catch (err) {
     errorHandler(err);

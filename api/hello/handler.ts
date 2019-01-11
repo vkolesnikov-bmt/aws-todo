@@ -20,5 +20,5 @@ export async function hello(event) {
   log('put file');*/
 
   await promisify(writeFile)('/tmp/message.txt', 'Hello Node.js');
-  return promisify(readFile)('/tmp/message.txt').then((data: Buffer) => data.toString('utf8')) ;
+  return promisify(readFile)('/tmp/message.txt').then((data: Buffer) => data.toString('utf8'));
 }

@@ -19,9 +19,10 @@ export async function getTodo() {
 }
 
 export async function updateTodo(event) {
-  let todo = new Todo({ id: event.body.id, task: event.body.task, status: event.body.status });
+  // let todo = new Todo({ id: event.body.id, task: event.body.task, status: event.body.status });
   try {
-    await todo.save();
+    await  Todo.update({ id: event.body.id}, {task: event.body.task, status: event.body.status });
+      // todo.save();
     return { message: 'Update todo successfully' };
   } catch (err) {
     errorHandler(err);
@@ -30,9 +31,8 @@ export async function updateTodo(event) {
 
 export async function updateStatusTodos(event) {
   try {
-    console.log(event.body);
     await Todo.batchPut(event.body);
-    return { message: 'Success update status todos' };
+    return { message: 'Success update status todos', data: event.body };
   } catch (err) {
     return errorHandler(err);
   }
@@ -56,11 +56,3 @@ export async function deleteAllTodos(event) {
   }
 }
 
-export async function deleteCompletedTodos(event) {
-  try {
-    await Todo.batchDelete(event.body);
-    return { message: 'Success delete completed todos' };
-  } catch (err) {
-    errorHandler(err);
-  }
-}

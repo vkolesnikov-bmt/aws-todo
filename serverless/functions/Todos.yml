@@ -255,7 +255,7 @@ deleteAllTodo:
 #    - sns: ${self:provider.environment.SNS}
 
 deleteCompletedTodos:
-  handler: api/todos/handler.deleteCompletedTodos
+  handler: api/todos/handler.deleteAllTodos
   events:
   - http:
       path: todos/delete/completed

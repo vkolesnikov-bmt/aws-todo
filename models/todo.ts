@@ -10,12 +10,12 @@ const todoSchema = new Schema({
     hashKey: true,
   },
   task: {
-    type: String
+    type: String,
   },
   status: {
     type: Boolean,
-    default: false
-  }
+    default: false,
+  },
 });
 
 export const Todo = dynamoose.model(`${process.env.TODOS_TABLE}`, todoSchema);

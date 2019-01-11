@@ -1,6 +1,5 @@
 import * as dynamoose from 'dynamoose';
 
-
 const Schema = dynamoose.Schema;
 
 dynamoose.local('http://localhost:8000');

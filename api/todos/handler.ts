@@ -15,11 +15,11 @@ export async function createTodo(event) {
 }
 
 export async function getTodo() {
-  try{
+  try {
     const list = await Todo.scan().exec();
-    return {message: "Get todos list success", data: list };
-  } catch (err){
-    errorHandler(err)
+    return { message: 'Get todos list success', data: list };
+  } catch (err) {
+    errorHandler(err);
   }
 
 }

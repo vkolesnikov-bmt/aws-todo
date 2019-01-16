@@ -15,7 +15,13 @@ export async function createTodo(event) {
 }
 
 export async function getTodo() {
-  return Todo.scan().exec();
+  try{
+    const list = await Todo.scan().exec();
+    return {message: "Get todos list success", data: list };
+  } catch (err){
+    errorHandler(err)
+  }
+
 }
 
 export async function updateTodo(event) {
@@ -32,7 +38,7 @@ export async function updateStatusTodos(event) {
     await Todo.batchPut(event.body);
     return { message: 'Success update status todos', data: event.body };
   } catch (err) {
-    return errorHandler(err);
+    errorHandler(err);
   }
 }
 
